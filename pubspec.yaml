@@ -22,6 +22,8 @@ dependencies:
   flutter_local_notifications: ^17.2.3
   permission_handler: ^11.3.1
   device_info_plus: ^10.1.2
+  get: ^4.6.6
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +40,7 @@ flutter:
 
   assets:
     - assets/images/logo/
+    - assets/images/splash/
     - assets/fonts/
 
   fonts:
@@ -57,19 +60,16 @@ flutter:
           weight: 700
 
 flutter_native_splash:
-  background_image: "assets/images/logo_v2.png"
   color: "#ffffff"
-  image: assets/images/logo_v2.png
-  branding: assets/images/logo_v2.png
+  image: assets/images/logo/white_splash.png
   color_dark: "#121212"
-  image_dark: assets/images/logo_v2.png
-  branding_dark: assets/images/logo_v2.png
+  image_dark: assets/images/logo/black_splash.png
 
   android_12:
-    image: assets/images/logo.png
     icon_background_color: "#ffffff"
-    image_dark: assets/images/logo.png
+    image: assets/images/logo/white_splash.png
     icon_background_color_dark: "#121212"
-  fullscreen: true
+    image_dark: assets/images/logo/black_splash.png
+
   web: false
 

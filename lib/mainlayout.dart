@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:serenmind/screens/activity/activity_page.dart';
 import 'package:serenmind/screens/home/home_page.dart';
 import 'package:serenmind/screens/tips/tips_page.dart';
+import 'package:serenmind/widgets/bottom_bar.dart';
+
 import 'package:go_router/go_router.dart';
 import 'services/firebase.dart';
 
@@ -28,8 +30,6 @@ class _MainLayoutState extends State<MainLayout> {
     setState(() {
       _selectedIndex = index;
     });
-
-    // Naviguer vers les pages correspondantes
     switch (index) {
       case 0:
         context.go('/');
@@ -54,23 +54,10 @@ class _MainLayoutState extends State<MainLayout> {
     return Scaffold(
       appBar: AppBar(title: const Text('SerenMind App')),
       body: pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Activité',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.tips_and_updates),
-            label: 'Conseil',
-          ),
-        ],
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: _selectedIndex, // Envoi de l'index actuel
+        onItemTapped:
+            _onItemTapped, // La fonction appelée lorsqu'un onglet est tapé
       ),
     );
   }

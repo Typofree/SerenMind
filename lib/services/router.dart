@@ -6,7 +6,7 @@ class AppRouter {
 
   AppRouter()
       : router = GoRouter(
-          initialLocation: '/',
+          initialLocation: '/splash',
           routes: [
             GoRoute(
               path: '/',
@@ -22,6 +22,11 @@ class AppRouter {
               path: '/tips',
               name: 'tips',
               builder: (context, state) => MainLayout(pageIndex: 2),
+            ),
+            GoRoute(
+              path: '/splash',
+              name: 'splash',
+              builder: (context, state) => MainLayout(pageIndex: 3),
             ),
           ],
         );
