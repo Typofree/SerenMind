@@ -2,12 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:serenmind/generated/l10n.dart';
 
-class LoginController {
+class RegisterController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String? validateFields({
     required String email,
     required String password,
+    required String confirmPassword,
     required BuildContext context,
   }) {
     if (email.isEmpty) {
@@ -16,47 +17,32 @@ class LoginController {
     if (password.isEmpty) {
       return S.of(context).errorPasswordEmpty;
     }
+    if (confirmPassword.isEmpty) {
+      return S.of(context).errorConfirmPasswordEmpty;
+    }
+    if (password != confirmPassword) {
+      return S.of(context).errorPasswordsDontMatch;
+    }
     return null;
   }
 
-  Future<String?> loginWithEmailAndPassword({
+  Future<String?> registerWithEmailAndPassword({
     required String email,
     required String password,
     required BuildContext context,
   }) async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      // Inscription réussie
       return null;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        return S.of(context).errorUserNotFound;
-      } else if (e.code == 'wrong-password') {
-        return S.of(context).errorWrongPassword;
-      } else {
-        return S.of(context).errorGeneral(e.message ?? 'Erreur inconnue');
-      }
-    } catch (e) {
-      return S.of(context).errorGeneric(e.toString());
-    }
-  }
-
-  Future<String?> resetPassword({
-    required String email,
-    required BuildContext context,
-  }) async {
-    if (email.isEmpty) {
-      return S.of(context).errorEmailEmpty;
-    }
-
-    try {
-      await _auth.sendPasswordResetEmail(email: email);
-      return null;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        return S.of(context).errorUserNotFound;
+      if (e.code == 'weak-password') {
+        return S.of(context).errorWeakPassword;
+      } else if (e.code == 'email-already-in-use') {
+        return S.of(context).errorEmailAlreadyInUse;
       } else {
         return S.of(context).errorGeneral(e.message ?? 'Erreur inconnue');
       }

@@ -22,8 +22,12 @@ dependencies:
   flutter_local_notifications: ^17.2.3
   permission_handler: ^11.3.1
   device_info_plus: ^10.1.2
-  get: ^4.6.6
   flutter_svg: ^2.0.10+1
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  intl_utils: ^2.8.7
+  firebase_storage: ^12.3.3
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +43,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/
     - assets/images/logo/
     - assets/images/splash/
     - assets/fonts/

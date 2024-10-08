@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:logger/logger.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:serenmind/screens/splash/splashView.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
+import 'package:serenmind/generated/l10n.dart';
 import 'services/router.dart';
 import 'services/firebase_options.dart';
 import 'services/firebase.dart';
 import 'services/notification.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
 NotificationManager notification = NotificationManager();
 
 void main() async {
@@ -22,27 +21,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+ await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   FirebaseMessaging.onBackgroundMessage(
       notification.firebaseMessagingBackgroundHandler);
 
-  runApp(SplashApp());
-}
-
-class SplashApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'SerenMind',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: SplashScreen(),
-      routes: {
-        '/home': (context) => SerenMindApp(),
-      },
-    );
-  }
+  runApp(const SerenMindApp());
 }
 
 class SerenMindApp extends StatefulWidget {
@@ -81,8 +67,28 @@ class _SerenMindAppState extends State<SerenMindApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routeInformationParser: _appRouter.router.routeInformationParser,
-      routerDelegate: _appRouter.router.routerDelegate,
+      debugShowCheckedModeBanner: false,
+      routerConfig: _appRouter.router,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('fr', ''),
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        if (locale != null) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode) {
+              return supportedLocale;
+            }
+          }
+        }
+        return const Locale('en', '');
+      },
     );
   }
 }

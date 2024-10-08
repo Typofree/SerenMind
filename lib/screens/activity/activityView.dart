@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ActivityPage extends StatelessWidget {
+class ActivityView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return  Center(
         child: Text('Welcome to the ActivityPage !'),
-      ),
+
     );
   }
 }

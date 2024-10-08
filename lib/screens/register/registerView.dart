@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:serenmind/constants/styles.dart';
 import 'package:serenmind/generated/l10n.dart';
-import 'package:serenmind/screens/login/loginController.dart';
+import 'package:serenmind/screens/register/registerController.dart';
 
-class LoginView extends StatefulWidget {
+class RegisterView extends StatefulWidget {
   @override
-  _LoginViewState createState() => _LoginViewState();
+  _RegisterViewState createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
-  final LoginController _controller = LoginController();
+class _RegisterViewState extends State<RegisterView> {
+  final RegisterController _controller = RegisterController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   void _showSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -23,13 +24,15 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void _login() async {
+  void _register() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
 
     String? validationError = _controller.validateFields(
       email: email,
       password: password,
+      confirmPassword: confirmPassword,
       context: context,
     );
 
@@ -38,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
       return;
     }
 
-    String? error = await _controller.loginWithEmailAndPassword(
+    String? error = await _controller.registerWithEmailAndPassword(
       email: email,
       password: password,
       context: context,
@@ -48,21 +51,6 @@ class _LoginViewState extends State<LoginView> {
       _showSnackbar(error);
     } else {
       context.go('/');
-    }
-  }
-
-  void _resetPassword() async {
-    final email = _emailController.text.trim();
-
-    String? error = await _controller.resetPassword(
-      email: email,
-      context: context,
-    );
-
-    if (error != null) {
-      _showSnackbar(error);
-    } else {
-      _showSnackbar(S.of(context).passwordResetSent);
     }
   }
 
@@ -100,26 +88,24 @@ class _LoginViewState extends State<LoginView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Image ou illustration zen
                   Image.asset(
-                    'assets/images/zen_login.png',
+                    'assets/images/zen_register.png',
                     height: 150,
                   ),
                   const SizedBox(height: 30),
 
                   Text(
-                    S.of(context).welcome,
+                    S.of(context).createAccount,
                     style: AppTextStyles.headline1,
                   ),
                   const SizedBox(height: 10),
 
                   Text(
-                    S.of(context).loginPrompt,
+                    S.of(context).fillInfo,
                     style: AppTextStyles.bodyText1,
                   ),
                   const SizedBox(height: 40),
 
-                  // Champ d'email
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -136,7 +122,6 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Champ de mot de passe
                   TextField(
                     controller: _passwordController,
                     obscureText: true,
@@ -152,11 +137,27 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
+
+                  TextField(
+                    controller: _confirmPasswordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.whiteColor,
+                      hintText: S.of(context).confirmPassword,
+                      hintStyle: AppTextStyles.bodyText2,
+                      prefixIcon: const Icon(Icons.lock, color: AppColors.primaryColor),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 30),
 
-                  // Bouton Connexion
                   ElevatedButton(
-                    onPressed: _login, // Appel de la méthode de connexion
+                    onPressed: _register,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryColor,
                       padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
@@ -165,36 +166,25 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     child: Text(
-                      S.of(context).loginButton,
+                      S.of(context).signUp,
                       style: AppTextStyles.buttonText,
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-
-                  TextButton(
-                    onPressed: _resetPassword, // Appel de la méthode de réinitialisation
-                    child: Text(
-                      S.of(context).forgotPassword,
-                      style: const TextStyle(color: AppColors.primaryColor),
-                    ),
-                  ),
-
                   const SizedBox(height: 20),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        S.of(context).noAccount,
+                        S.of(context).alreadyHaveAccount,
                         style: AppTextStyles.bodyText2,
                       ),
                       TextButton(
                         onPressed: () {
-                          context.push('/register');
+                          context.push('/login');
                         },
                         child: Text(
-                          S.of(context).createAccount,
+                          S.of(context).loginButton,
                           style: const TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,

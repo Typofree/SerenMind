@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:serenmind/screens/activity/activity_page.dart';
-import 'package:serenmind/screens/home/home_page.dart';
-import 'package:serenmind/screens/tips/tips_page.dart';
+import 'package:serenmind/constants/styles.dart';
+import 'package:serenmind/screens/activity/activityView.dart';
+import 'package:serenmind/screens/home/homeView.dart';
+import 'package:serenmind/screens/mood/moodView.dart';
+import 'package:serenmind/widgets/menu_list.dart'; // Importez la page "MenuList"
 import 'package:serenmind/widgets/bottom_bar.dart';
-
-import 'package:go_router/go_router.dart';
-import 'services/firebase.dart';
+import 'package:serenmind/widgets/app_bar.dart';
+import 'package:go_router/go_router.dart'; // Pour la navigation
 
 class MainLayout extends StatefulWidget {
   final int pageIndex;
@@ -18,7 +19,6 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   late int _selectedIndex;
-  FirebaseControler firebase = FirebaseControler();
 
   @override
   void initState() {
@@ -30,34 +30,52 @@ class _MainLayoutState extends State<MainLayout> {
     setState(() {
       _selectedIndex = index;
     });
-    switch (index) {
-      case 0:
-        context.go('/');
-        break;
-      case 1:
-        context.go('/activity');
-        break;
-      case 2:
-        context.go('/tips');
-        break;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final pages = [
-      HomePage(),
-      ActivityPage(),
-      TipsPage(),
+      HomeView(),
+      ActivityView(),
+      Moodview(),
+      MenuList(),
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('SerenMind App')),
-      body: pages[_selectedIndex],
+      extendBodyBehindAppBar: true,
+      appBar: HeaderAppBar(),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.topLeft,
+                  radius: 1.5,
+                  colors: [
+                    Color(0xFFF2F8F9),
+                    Color(0xFFA9CAED),
+                    Color(0xFF69B1A2),
+                  ],
+                  stops: [0.2, 0.6, 1.0],
+                ),
+              ),
+            ),
+          ),
+          pages[_selectedIndex],
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.go('/tips');
+        },
+        backgroundColor: AppColors.primaryColor,
+        child: const Icon(Icons.lightbulb_outline, size: 24, color: AppColors.whiteColor,),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: _selectedIndex, // Envoi de l'index actuel
-        onItemTapped:
-            _onItemTapped, // La fonction appelée lorsqu'un onglet est tapé
+        currentIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

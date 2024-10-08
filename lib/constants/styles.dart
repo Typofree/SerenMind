@@ -14,41 +14,47 @@ class AppColors {
   static const Color blackColor = Colors.black;
 }
 
-// Définitions des styles de texte (TextStyles)
 class AppTextStyles {
   static const TextStyle headline1 = TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.bold,
     color: AppColors.textColor,
     fontFamily:
-        'Poppins', // Assurez-vous que la police est ajoutée dans pubspec.yaml
+        'Poppins',
   );
 
   static const TextStyle headline2 = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
     color: AppColors.textColor,
-    fontFamily: 'Roboto',
+    fontFamily: 'Poppins',
   );
 
   static const TextStyle bodyText1 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,
     color: AppColors.textColor,
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
   );
 
   static const TextStyle bodyText2 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.normal,
     color: AppColors.textColor,
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
+  );
+
+  static const TextStyle bodyText3 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+    color: AppColors.textColor,
+    fontFamily: 'Montserrat',
   );
 
   static const TextStyle buttonText = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w600,
     color: AppColors.whiteColor,
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
   );
 }

@@ -22,8 +22,8 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: Offset(0.0, 0.0),
-      end: Offset(0.0, 1.0),
+      begin: const Offset(0.0, 0.0),
+      end: const Offset(0.0, 1.0),
     ).animate(_animationController);
 
     Future.delayed(const Duration(seconds: 3), () {
@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: Stack(
         children: [
-          MainLayout(pageIndex: 0),
+          const MainLayout(pageIndex: 0),
           SlideTransition(
             position: _slideAnimation,
             child: SplashContent(),
