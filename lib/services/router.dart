@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:serenmind/widgets/bottom_bar.dart';
+import 'package:serenmind/mainlayout.dart';
 
 class AppRouter {
   final GoRouter router;

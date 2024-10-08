@@ -1,4 +1,4 @@
-package com.example.serenmind
+package com.workshop.serenmind
 
 import io.flutter.embedding.android.FlutterActivity
 
