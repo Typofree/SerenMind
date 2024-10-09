@@ -18,12 +18,16 @@ class RecipeDetailView extends StatelessWidget {
         // Requête Firestore basée sur le champ 'name' (nom de la recette)
         future: FirebaseFirestore.instance
             .collection('recipes') // Collection des recettes
-            .where('name', isEqualTo: recipeName) // Requête où 'name' est égal au recipeName
+            .where('name',
+                isEqualTo:
+                    recipeName) // Requête où 'name' est égal au recipeName
             .limit(1) // Limiter la requête à un seul résultat
             .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator()); // Affiche un loader pendant le chargement
+            return Center(
+                child:
+                    CircularProgressIndicator()); // Affiche un loader pendant le chargement
           }
 
           if (snapshot.hasError) {
@@ -37,14 +41,17 @@ class RecipeDetailView extends StatelessWidget {
           // Récupérer les données du premier document trouvé
           var data = snapshot.data!.docs.first.data() as Map<String, dynamic>;
           String imageUrl = data['imageUrl']; // URL de l'image
-          List<String> ingredients = List<String>.from(data['ingredients']); // Liste d'ingrédients
-          List<String> steps = List<String>.from(data['steps']); // Liste d'étapes
+          List<String> ingredients =
+              List<String>.from(data['ingredients']); // Liste d'ingrédients
+          List<String> steps =
+              List<String>.from(data['steps']); // Liste d'étapes
 
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Affichage de l'image de la recette
+
                 Image.network(
                   imageUrl,
                   fit: BoxFit.cover,
@@ -57,7 +64,8 @@ class RecipeDetailView extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'Ingrédients',
-                    style: AppTextStyles.headline2.copyWith(color: AppColors.textColor),
+                    style: AppTextStyles.headline2
+                        .copyWith(color: AppColors.textColor),
                   ),
                 ),
                 Padding(
@@ -82,7 +90,8 @@ class RecipeDetailView extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'Étapes de la recette',
-                    style: AppTextStyles.headline2.copyWith(color: AppColors.textColor),
+                    style: AppTextStyles.headline2
+                        .copyWith(color: AppColors.textColor),
                   ),
                 ),
                 Padding(

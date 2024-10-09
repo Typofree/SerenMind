@@ -37,7 +37,7 @@ class _MainLayoutState extends State<MainLayout> {
     final pages = [
       HomeView(),
       ActivityView(),
-      Moodview(),
+      MoodView(),
       MenuList(),
     ];
 
@@ -70,7 +70,11 @@ class _MainLayoutState extends State<MainLayout> {
           context.go('/tips');
         },
         backgroundColor: AppColors.primaryColor,
-        child: const Icon(Icons.lightbulb_outline, size: 24, color: AppColors.whiteColor,),
+        child: const Icon(
+          Icons.lightbulb_outline,
+          size: 24,
+          color: AppColors.whiteColor,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CustomBottomNavigationBar(

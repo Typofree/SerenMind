@@ -19,8 +19,7 @@ class AppTextStyles {
     fontSize: 32,
     fontWeight: FontWeight.bold,
     color: AppColors.textColor,
-    fontFamily:
-        'Poppins',
+    fontFamily: 'Poppins',
   );
 
   static const TextStyle headline2 = TextStyle(
@@ -53,7 +52,7 @@ class AppTextStyles {
 
   static const TextStyle buttonText = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.whiteColor,
     fontFamily: 'Montserrat',
   );
