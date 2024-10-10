@@ -1,209 +1,144 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:carousel_slider/carousel_controller.dart'; // Import du CarouselController
-import 'package:intl/intl.dart';
-
 import 'package:serenmind/constants/styles.dart';
+import 'package:serenmind/screens/mood/moodController.dart';
+import 'package:go_router/go_router.dart';
 
 class MoodView extends StatefulWidget {
   @override
   _MoodViewState createState() => _MoodViewState();
 }
 
-class _MoodViewState extends State<MoodView>
-    with SingleTickerProviderStateMixin {
-  String? _currentMood;
-  int _currentIndex = 0;
-  Color _backgroundColor = AppColors.backgroundColor;
-  late AnimationController _controller;
-  late Animation<double> _animation;
-  bool _showMoodText = false;
-  bool _isLoading = true;
-
-  final List<Map<String, dynamic>> _moods = [
-    {
-      'mood': 'Heureux',
-      'image': 'assets/images/mood/happy.png',
-      'color': Colors.yellow
-    },
-    {
-      'mood': 'Surpris',
-      'image': 'assets/images/mood/shocked.png',
-      'color': Colors.orange
-    },
-    {
-      'mood': 'Énervé',
-      'image': 'assets/images/mood/angry.png',
-      'color': Colors.red
-    },
-    {
-      'mood': 'Excité',
-      'image': 'assets/images/mood/excited.png',
-      'color': Colors.purple
-    },
-    {
-      'mood': 'Calme',
-      'image': 'assets/images/mood/calm.png',
-      'color': Colors.blue
-    },
-  ];
-
-  CarouselSliderController buttonCarouselController =
-      CarouselSliderController();
+class _MoodViewState extends State<MoodView> {
+  CarouselSliderController buttonCarouselController = CarouselSliderController();
 
   @override
   void initState() {
     super.initState();
-    _loadMood();
-
-    _controller = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    );
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Future<void> _loadMood() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String? lastSavedMood = prefs.getString('mood');
-    String? lastSavedDate = prefs.getString('date');
-
-    String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
-    if (lastSavedDate != currentDate) {
-      setState(() {
-        _currentMood = "Pas d'humeur sélectionnée";
-        _currentIndex = 0;
-        _backgroundColor = AppColors.backgroundColor;
-      });
-    } else {
-      setState(() {
-        _currentMood = lastSavedMood ?? "Pas d'humeur sélectionnée";
-        _currentIndex = _moods.indexWhere((m) => m['mood'] == _currentMood);
-        if (_currentIndex == -1) _currentIndex = 0;
-        _backgroundColor = _moods[_currentIndex]['color'];
-      });
-    }
-
-    await Future.delayed(Duration(milliseconds: 300));
-
-    if (buttonCarouselController.ready) {
-      buttonCarouselController.jumpToPage(_currentIndex);
-    }
-
-    setState(() {
-      _isLoading = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<MoodController>(context, listen: false).loadMood();
     });
-  }
-
-  Future<void> _saveMood(String mood) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
-    await prefs.setString('mood', mood);
-    await prefs.setString('date', currentDate);
-
-    setState(() {
-      _currentMood = mood;
-      _showMoodText = true;
-    });
-    _controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<MoodController>(context);
+
     return Scaffold(
-      body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+      body: controller.isLoading
+          ? const Center(child: CircularProgressIndicator())
           : AnimatedContainer(
               duration: const Duration(milliseconds: 500),
-              color: _backgroundColor,
+              color: controller.backgroundColor,
               child: SafeArea(
-                child: ClipRRect(
-                  clipBehavior: Clip.none,
-                  child: Stack(
-                    children: [
-                      CarouselSlider(
-                        carouselController: buttonCarouselController,
-                        options: CarouselOptions(
-                          initialPage: _currentIndex,
-                          height: MediaQuery.of(context).size.height,
-                          viewportFraction: 1.0,
-                          enlargeCenterPage: false,
-                          autoPlay: false,
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _currentIndex = index;
-                              _backgroundColor = _moods[_currentIndex]['color'];
-                            });
+                child: Stack(
+                  children: [
+                    CarouselSlider(
+                      carouselController: buttonCarouselController,
+                      options: CarouselOptions(
+                        initialPage: controller.currentIndex,
+                        height: MediaQuery.of(context).size.height,
+                        viewportFraction: 1.0,
+                        enlargeCenterPage: false,
+                        autoPlay: false,
+                        onPageChanged: (index, reason) {
+                          // Met à jour l'index et réinitialise l'humeur si la slide change
+                          controller.setCurrentIndex(index);
+                          controller.setCurrentMood(null); // Réinitialise l'humeur actuelle
+                        },
+                      ),
+                      items: controller.moods.map((mood) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(mood['image']!),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
                           },
-                        ),
-                        items: _moods.map((mood) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(mood['image']!),
-                                    fit: BoxFit.cover,
+                        );
+                      }).toList(),
+                    ),
+                    Positioned(
+                      bottom: 40,
+                      left: 20,
+                      right: 20,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              // Utiliser la clé d'humeur (key) pour définir l'humeur actuelle
+                              controller.setCurrentMood(controller.moods[controller.currentIndex]['key']);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              backgroundColor: controller.currentMood ==
+                                      controller.moods[controller.currentIndex]['key']
+                                  ? Colors.green
+                                  : Colors.transparent,
+                              foregroundColor: AppColors.whiteColor,
+                              side: const BorderSide(
+                                color: AppColors.blackColor,
+                                width: 2,
+                              ),
+                            ),
+                            child: Text(
+                              'Je suis ${controller.moods[controller.currentIndex]['mood']}',
+                              style: AppTextStyles.buttonText,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          // Indicateurs de "dots"
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: controller.moods.asMap().entries.map((entry) {
+                              return GestureDetector(
+                                onTap: () => buttonCarouselController
+                                    .animateToPage(entry.key),
+                                child: Container(
+                                  width: 12.0,
+                                  height: 12.0,
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 4.0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: controller.currentIndex == entry.key
+                                        ? Colors.white
+                                        : Colors.grey,
                                   ),
                                 ),
                               );
-                            },
-                          );
-                        }).toList(),
-                      ),
-                      if (_currentMood != null &&
-                          _currentMood != "Pas d'humeur sélectionnée")
-                        Positioned(
-                          top: 30,
-                          left: 20,
-                          right: 20,
-                          child: Center(
-                            child: Text(
-                              "Aujourd'hui, je suis $_currentMood",
-                              style: AppTextStyles.headline1.copyWith(
-                                color: AppColors.whiteColor,
-                                shadows: [
-                                  const Shadow(
-                                    offset: Offset(2, 2),
-                                    blurRadius: 4,
-                                    color: Colors.black45,
-                                  ),
-                                ],
-                              ),
-                            ),
+                            }).toList(),
                           ),
-                        ),
-                      Positioned(
-                        width: MediaQuery.of(context).size.width,
-                        bottom: 50,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: SizedBox(
-                            width: double.infinity,
+                          const SizedBox(height: 20),
+                          Visibility(
+                            visible: controller.currentMood != null,
                             child: ElevatedButton(
                               onPressed: () {
-                                _saveMood(_moods[_currentIndex]['mood']!);
+                                if (controller.currentMood != null) {
+                                  int moodIndex = controller.currentIndex;
+                                  controller.saveMood(moodIndex);
+                                  context.go('/');
+                                }
                               },
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 15),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 50),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),
-                                backgroundColor: AppColors.blackColor,
+                                backgroundColor: Colors.greenAccent,
                                 foregroundColor: AppColors.whiteColor,
                                 side: const BorderSide(
                                   color: AppColors.blackColor,
@@ -211,15 +146,15 @@ class _MoodViewState extends State<MoodView>
                                 ),
                               ),
                               child: Text(
-                                'Je suis ${_moods[_currentIndex]['mood']!}',
+                                'Valider ma sélection',
                                 style: AppTextStyles.buttonText,
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

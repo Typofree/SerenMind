@@ -72,10 +72,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.emoji_emotions, color: currentIndex == 2 ? AppColors.primaryColor : AppColors.textColor.withOpacity(0.6)),
+                Icon(Icons.music_note, color: currentIndex == 2 ? AppColors.primaryColor : AppColors.textColor.withOpacity(0.6)),
                 const SizedBox(height: 4),
                 Text(
-                  S.of(context).nav_mood,
+                  S.of(context).nav_music,
                   style: currentIndex == 2
                       ? AppTextStyles.bodyText1.copyWith(color: AppColors.primaryColor)
                       : AppTextStyles.bodyText1.copyWith(color: AppColors.textColor.withOpacity(0.6)),

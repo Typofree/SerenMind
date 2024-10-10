@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:serenmind/mainlayout.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
+import 'dart:convert';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -26,10 +29,32 @@ class _SplashScreenState extends State<SplashScreen>
       end: const Offset(0.0, 1.0),
     ).animate(_animationController);
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async {
+      await _checkMoodAndNavigate();
       _animationController.forward();
     });
   }
+
+Future<void> _checkMoodAndNavigate() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  String? moodDataString = prefs.getString('moodData');
+
+  if (moodDataString != null) {
+    Map<String, dynamic> moodData = jsonDecode(moodDataString);
+    String moodDate = moodData['date'];
+    String moodKey = moodData['mood'];
+
+    if (moodDate == today && moodKey != null) {
+      context.go('/');
+      return;
+    }
+  }
+  context.go('/mood');
+}
+
+
 
   @override
   void dispose() {
@@ -42,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: Stack(
         children: [
-          const MainLayout(pageIndex: 0),
+          const Center(child: CircularProgressIndicator()),
           SlideTransition(
             position: _slideAnimation,
             child: SplashContent(),
@@ -53,7 +78,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-// Widget pour le contenu du SplashScreen (vous pouvez le modifier)
 class SplashContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

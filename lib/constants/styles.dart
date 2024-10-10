@@ -29,6 +29,13 @@ class AppTextStyles {
     fontFamily: 'Poppins',
   );
 
+    static const TextStyle headline3 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textColor,
+    fontFamily: 'Poppins',
+  );
+
   static const TextStyle bodyText1 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,

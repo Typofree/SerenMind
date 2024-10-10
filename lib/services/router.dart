@@ -6,9 +6,12 @@ import 'package:serenmind/screens/splash/splashView.dart';
 import 'package:serenmind/screens/register/registerView.dart';
 import 'package:serenmind/screens/recipe/recipeView.dart';
 import 'package:serenmind/screens/recipe/recipe_list_view.dart';
+import 'package:serenmind/screens/mood/moodView.dart';
 import 'package:serenmind/screens/activity/activity_list_view.dart';
 import 'package:serenmind/screens/music/music_list_view.dart';
 import 'package:serenmind/screens/tips/tipsView.dart';
+import 'package:serenmind/screens/profil/profilView.dart';
+
 
 class AppRouter {
   final GoRouter router;
@@ -23,13 +26,13 @@ class AppRouter {
               builder: (context, state) => MainLayout(pageIndex: 0),
             ),
             GoRoute(
-              path: '/activity',
+              path: '/activityList',
               name: 'activity',
               builder: (context, state) => MainLayout(pageIndex: 1),
             ),
             GoRoute(
-              path: '/mood',
-              name: 'mood',
+              path: '/musicList',
+              name: 'music',
               builder: (context, state) => MainLayout(pageIndex: 2),
             ),
             GoRoute(
@@ -46,6 +49,11 @@ class AppRouter {
               path: '/splash',
               name: 'splash',
               builder: (context, state) => SplashScreen(),
+            ),
+            GoRoute(
+              path: '/mood',
+              name: 'mood',
+              builder: (context, state) => MoodView(),
             ),
             GoRoute(
               path: '/login',
@@ -78,6 +86,11 @@ class AppRouter {
               path: '/musicList',
               name: 'musicList',
               builder: (context, state) => MusicListView(),
+            ),
+             GoRoute(
+              path: '/profil',
+              name: 'profil',
+              builder: (context, state) => ProfilView(),
             ),
           ],
         );

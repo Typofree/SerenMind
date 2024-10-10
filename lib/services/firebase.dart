@@ -6,7 +6,7 @@ class FirebaseControler {
   var logger = Logger();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  void signInAnonymously() async {
+  signInAnonymously() async {
     try {
       await FirebaseAuth.instance.signInAnonymously();
     } catch (e) {

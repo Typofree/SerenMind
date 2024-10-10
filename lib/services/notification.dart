@@ -24,17 +24,14 @@ class NotificationManager {
           'Message reçu en premier plan : ${message.notification?.title}, ${message.notification?.body}');
     });
 
-    // Rediriger l'utilisateur vers la page "Activité" lorsque la notification est cliquée
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       logger.d('Notification cliquée : ${message.notification?.title}');
       _handleNotificationRedirection(message);
     });
 
-    // Si l'application a été fermée et ouverte via une notification
     _checkInitialMessage();
   }
 
-  // Vérifier si l'application a été ouverte depuis une notification après avoir été fermée
   void _checkInitialMessage() async {
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
@@ -45,7 +42,6 @@ class NotificationManager {
     }
   }
 
-  // Demander les autorisations de notifications
   Future<void> _requestNotificationPermissions() async {
     await Permission.notification.request();
 
@@ -62,7 +58,6 @@ class NotificationManager {
     _logNotificationPermissionStatus(settings);
   }
 
-  // Gérer les permissions de notifications sur Android 13
   Future<void> _requestAndroid13Permissions() async {
     PermissionStatus status = await Permission.notification.request();
 
@@ -83,13 +78,11 @@ class NotificationManager {
     }
   }
 
-  // Handler pour les messages reçus en arrière-plan
   Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     await Firebase.initializeApp();
     logger.d('Message reçu en arrière-plan : ${message.messageId}');
   }
 
-  // Vérifier si l'appareil utilise Android 13 ou plus
   Future<bool> _isAndroid13OrAbove() async {
     if (Platform.isAndroid) {
       var androidInfo = await DeviceInfoPlugin().androidInfo;
@@ -98,7 +91,6 @@ class NotificationManager {
     return false;
   }
 
-  // Loguer le statut des permissions de notifications
   void _logNotificationPermissionStatus(NotificationSettings settings) {
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       logger.d('L\'utilisateur a autorisé les notifications');

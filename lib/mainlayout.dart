@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:serenmind/constants/styles.dart';
 import 'package:serenmind/screens/activity/activityView.dart';
 import 'package:serenmind/screens/home/homeView.dart';
-import 'package:serenmind/screens/mood/moodView.dart';
-import 'package:serenmind/widgets/menu_list.dart'; // Importez la page "MenuList"
+import 'package:serenmind/screens/music/music_list_view.dart';
+import 'package:serenmind/widgets/menu_list.dart';
 import 'package:serenmind/widgets/bottom_bar.dart';
 import 'package:serenmind/widgets/app_bar.dart';
-import 'package:go_router/go_router.dart'; // Pour la navigation
+import 'package:go_router/go_router.dart';
 
 class MainLayout extends StatefulWidget {
   final int pageIndex;
@@ -37,7 +37,7 @@ class _MainLayoutState extends State<MainLayout> {
     final pages = [
       HomeView(),
       ActivityView(),
-      MoodView(),
+      MusicListView(),
       MenuList(),
     ];
 
@@ -62,7 +62,9 @@ class _MainLayoutState extends State<MainLayout> {
               ),
             ),
           ),
-          pages[_selectedIndex],
+          Positioned.fill(
+            child: pages[_selectedIndex],
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

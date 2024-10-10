@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:serenmind/constants/styles.dart';
 
 class RecipeDetailView extends StatelessWidget {
-  final String recipeName; // Le nom de la recette est passé en paramètre
+  final String recipeName;
 
   RecipeDetailView({required this.recipeName});
 
@@ -15,19 +15,18 @@ class RecipeDetailView extends StatelessWidget {
         backgroundColor: AppColors.primaryColor,
       ),
       body: FutureBuilder<QuerySnapshot>(
-        // Requête Firestore basée sur le champ 'name' (nom de la recette)
         future: FirebaseFirestore.instance
-            .collection('recipes') // Collection des recettes
+            .collection('recipes')
             .where('name',
                 isEqualTo:
-                    recipeName) // Requête où 'name' est égal au recipeName
-            .limit(1) // Limiter la requête à un seul résultat
+                    recipeName)
+            .limit(1)
             .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
                 child:
-                    CircularProgressIndicator()); // Affiche un loader pendant le chargement
+                    CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -38,19 +37,17 @@ class RecipeDetailView extends StatelessWidget {
             return Center(child: Text("Recette non trouvée."));
           }
 
-          // Récupérer les données du premier document trouvé
           var data = snapshot.data!.docs.first.data() as Map<String, dynamic>;
-          String imageUrl = data['imageUrl']; // URL de l'image
+          String imageUrl = data['imageUrl'];
           List<String> ingredients =
-              List<String>.from(data['ingredients']); // Liste d'ingrédients
+              List<String>.from(data['ingredients']);
           List<String> steps =
-              List<String>.from(data['steps']); // Liste d'étapes
+              List<String>.from(data['steps']);
 
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Affichage de l'image de la recette
 
                 Image.network(
                   imageUrl,
@@ -59,7 +56,6 @@ class RecipeDetailView extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // Section Ingrédients
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
@@ -85,7 +81,6 @@ class RecipeDetailView extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // Section Étapes
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(

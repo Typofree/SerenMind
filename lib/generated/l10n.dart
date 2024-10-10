@@ -200,11 +200,11 @@ class S {
     );
   }
 
-  /// `Mood`
-  String get nav_mood {
+  /// `Music`
+  String get nav_music {
     return Intl.message(
-      'Mood',
-      name: 'nav_mood',
+      'Music',
+      name: 'nav_music',
       desc: '',
       args: [],
     );
@@ -215,6 +215,46 @@ class S {
     return Intl.message(
       'Menu',
       name: 'nav_menu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Mood`
+  String get mood {
+    return Intl.message(
+      'Change Mood',
+      name: 'mood',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Legal Mentions`
+  String get legal {
+    return Intl.message(
+      'Legal Mentions',
+      name: 'legal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accessibility`
+  String get accessibility {
+    return Intl.message(
+      'Accessibility',
+      name: 'accessibility',
       desc: '',
       args: [],
     );

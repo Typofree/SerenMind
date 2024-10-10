@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accessibility": MessageLookupByLibrary.simpleMessage("Accessibility"),
         "alreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account?"),
         "confirmPassword":
@@ -56,18 +57,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot password?"),
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
+        "legal": MessageLookupByLibrary.simpleMessage("Legal Mentions"),
         "loginButton": MessageLookupByLibrary.simpleMessage("Log In"),
         "loginPrompt":
             MessageLookupByLibrary.simpleMessage("Log in to continue"),
+        "mood": MessageLookupByLibrary.simpleMessage("Change Mood"),
         "nav_activity": MessageLookupByLibrary.simpleMessage("Activity"),
         "nav_home": MessageLookupByLibrary.simpleMessage("Home"),
         "nav_menu": MessageLookupByLibrary.simpleMessage("Menu"),
-        "nav_mood": MessageLookupByLibrary.simpleMessage("Mood"),
+        "nav_music": MessageLookupByLibrary.simpleMessage("Music"),
         "noAccount":
             MessageLookupByLibrary.simpleMessage("Don\'\'t have an account?"),
         "passwordHint": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordResetSent":
             MessageLookupByLibrary.simpleMessage("Sent password reset email"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome")
       };
