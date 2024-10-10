@@ -3,10 +3,10 @@ import 'package:serenmind/constants/styles.dart';
 import 'package:serenmind/screens/activity/activityView.dart';
 import 'package:serenmind/screens/home/homeView.dart';
 import 'package:serenmind/screens/music/music_list_view.dart';
+import 'package:serenmind/screens/recipe/recipe_list_view.dart';
 import 'package:serenmind/widgets/menu_list.dart';
 import 'package:serenmind/widgets/bottom_bar.dart';
 import 'package:serenmind/widgets/app_bar.dart';
-import 'package:go_router/go_router.dart';
 
 class MainLayout extends StatefulWidget {
   final int pageIndex;
@@ -19,6 +19,7 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   late int _selectedIndex;
+  bool _showMenu = false; // Variable pour afficher ou cacher la page de Menu
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _MainLayoutState extends State<MainLayout> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _showMenu = false; // Cacher le menu quand on sélectionne un autre index
     });
   }
 
@@ -38,7 +40,7 @@ class _MainLayoutState extends State<MainLayout> {
       HomeView(),
       ActivityView(),
       MusicListView(),
-      MenuList(),
+      RecipeListView(),
     ];
 
     return Scaffold(
@@ -46,6 +48,7 @@ class _MainLayoutState extends State<MainLayout> {
       appBar: HeaderAppBar(),
       body: Stack(
         children: [
+          // Affichage des pages normales
           Positioned.fill(
             child: Container(
               decoration: const BoxDecoration(
@@ -60,16 +63,25 @@ class _MainLayoutState extends State<MainLayout> {
                   stops: [0.2, 0.6, 1.0],
                 ),
               ),
+              child: pages[_selectedIndex],
             ),
           ),
-          Positioned.fill(
-            child: pages[_selectedIndex],
-          ),
+          // Affichage de la page Menu si _showMenu est vrai
+          if (_showMenu)
+            Positioned.fill(
+              child: Container(
+                color: Colors
+                    .white, // Couleur de fond pour couvrir la page précédente
+                child: MenuList(), // Affiche la page Menu
+              ),
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.go('/tips');
+          setState(() {
+            _showMenu = true; // Affiche la page Menu
+          });
         },
         backgroundColor: AppColors.primaryColor,
         child: const Icon(

@@ -369,6 +369,156 @@ class S {
       args: [],
     );
   }
+
+  /// `Profil`
+  String get profileTitle {
+    return Intl.message(
+      'Profil',
+      name: 'profileTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update your information below`
+  String get profileSubtitle {
+    return Intl.message(
+      'Update your information below',
+      name: 'profileSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Changes`
+  String get saveChanges {
+    return Intl.message(
+      'Save Changes',
+      name: 'saveChanges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get deleteAccount {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Account Deletion`
+  String get confirmDelete {
+    return Intl.message(
+      'Confirm Account Deletion',
+      name: 'confirmDelete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete your account? This action cannot be undone.`
+  String get deleteAccountWarning {
+    return Intl.message(
+      'Are you sure you want to delete your account? This action cannot be undone.',
+      name: 'deleteAccountWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile updated successfully!`
+  String get profileUpdated {
+    return Intl.message(
+      'Profile updated successfully!',
+      name: 'profileUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Déconnexion`
+  String get logout {
+    return Intl.message(
+      'Déconnexion',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First Name`
+  String get firstNameHint {
+    return Intl.message(
+      'First Name',
+      name: 'firstNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last Name`
+  String get lastNameHint {
+    return Intl.message(
+      'Last Name',
+      name: 'lastNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Age`
+  String get ageHint {
+    return Intl.message(
+      'Age',
+      name: 'ageHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First name cannot be empty`
+  String get errorFirstNameEmpty {
+    return Intl.message(
+      'First name cannot be empty',
+      name: 'errorFirstNameEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last name cannot be empty`
+  String get errorLastNameEmpty {
+    return Intl.message(
+      'Last name cannot be empty',
+      name: 'errorLastNameEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid age`
+  String get errorAgeInvalid {
+    return Intl.message(
+      'Please enter a valid age',
+      name: 'errorAgeInvalid',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

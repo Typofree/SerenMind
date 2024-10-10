@@ -13,7 +13,11 @@ class _RegisterViewState extends State<RegisterView> {
   final RegisterController _controller = RegisterController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
 
   void _showSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -28,11 +32,17 @@ class _RegisterViewState extends State<RegisterView> {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
     final confirmPassword = _confirmPasswordController.text.trim();
+    final firstName = _firstNameController.text.trim();
+    final lastName = _lastNameController.text.trim();
+    final age = _ageController.text.trim();
 
     String? validationError = _controller.validateFields(
       email: email,
       password: password,
       confirmPassword: confirmPassword,
+      firstName: firstName,
+      lastName: lastName,
+      age: age,
       context: context,
     );
 
@@ -44,6 +54,9 @@ class _RegisterViewState extends State<RegisterView> {
     String? error = await _controller.registerWithEmailAndPassword(
       email: email,
       password: password,
+      firstName: firstName,
+      lastName: lastName,
+      age: age,
       context: context,
     );
 
@@ -93,19 +106,76 @@ class _RegisterViewState extends State<RegisterView> {
                     height: 150,
                   ),
                   const SizedBox(height: 30),
-
                   Text(
                     S.of(context).createAccount,
                     style: AppTextStyles.headline1,
                   ),
                   const SizedBox(height: 10),
-
                   Text(
                     S.of(context).fillInfo,
                     style: AppTextStyles.bodyText1,
                   ),
                   const SizedBox(height: 40),
 
+                  // Nom et Prénom sur la même ligne
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _firstNameController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: AppColors.whiteColor,
+                            hintText: S.of(context).firstNameHint,
+                            hintStyle: AppTextStyles.bodyText2,
+                            prefixIcon: const Icon(Icons.person,
+                                color: AppColors.primaryColor),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: TextField(
+                          controller: _lastNameController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: AppColors.whiteColor,
+                            hintText: S.of(context).lastNameHint,
+                            hintStyle: AppTextStyles.bodyText2,
+                            prefixIcon: const Icon(Icons.person,
+                                color: AppColors.primaryColor),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  TextField(
+                    controller: _ageController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.whiteColor,
+                      hintText: S.of(context).ageHint,
+                      hintStyle: AppTextStyles.bodyText2,
+                      prefixIcon:
+                          const Icon(Icons.cake, color: AppColors.primaryColor),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -113,7 +183,8 @@ class _RegisterViewState extends State<RegisterView> {
                       fillColor: AppColors.whiteColor,
                       hintText: S.of(context).emailHint,
                       hintStyle: AppTextStyles.bodyText2,
-                      prefixIcon: const Icon(Icons.email, color: AppColors.primaryColor),
+                      prefixIcon: const Icon(Icons.email,
+                          color: AppColors.primaryColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
@@ -130,7 +201,8 @@ class _RegisterViewState extends State<RegisterView> {
                       fillColor: AppColors.whiteColor,
                       hintText: S.of(context).passwordHint,
                       hintStyle: AppTextStyles.bodyText2,
-                      prefixIcon: const Icon(Icons.lock, color: AppColors.primaryColor),
+                      prefixIcon:
+                          const Icon(Icons.lock, color: AppColors.primaryColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
@@ -147,7 +219,8 @@ class _RegisterViewState extends State<RegisterView> {
                       fillColor: AppColors.whiteColor,
                       hintText: S.of(context).confirmPassword,
                       hintStyle: AppTextStyles.bodyText2,
-                      prefixIcon: const Icon(Icons.lock, color: AppColors.primaryColor),
+                      prefixIcon:
+                          const Icon(Icons.lock, color: AppColors.primaryColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
@@ -160,7 +233,8 @@ class _RegisterViewState extends State<RegisterView> {
                     onPressed: _register,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryColor,
-                      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 80, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),

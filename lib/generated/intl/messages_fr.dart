@@ -27,21 +27,35 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accessibility": MessageLookupByLibrary.simpleMessage("Accessibilité"),
+        "ageHint": MessageLookupByLibrary.simpleMessage("Âge"),
         "alreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("Vous avez déjà un compte?"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
+        "confirmDelete": MessageLookupByLibrary.simpleMessage(
+            "Confirmer la suppression du compte"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirmer le mot de passe"),
         "createAccount":
             MessageLookupByLibrary.simpleMessage("Créer un compte"),
+        "deleteAccount":
+            MessageLookupByLibrary.simpleMessage("Supprimer le compte"),
+        "deleteAccountWarning": MessageLookupByLibrary.simpleMessage(
+            "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."),
         "emailHint": MessageLookupByLibrary.simpleMessage("E-mail"),
+        "errorAgeInvalid": MessageLookupByLibrary.simpleMessage(
+            "Veuillez entrer un âge valide"),
         "errorConfirmPasswordEmpty": MessageLookupByLibrary.simpleMessage(
             "Veuillez remplir le champ Confirmer le mot de passe"),
         "errorEmailAlreadyInUse":
             MessageLookupByLibrary.simpleMessage("Cet email est déjà utilisé."),
         "errorEmailEmpty": MessageLookupByLibrary.simpleMessage(
             "Veuillez remplir le champ Adresse e-mail"),
+        "errorFirstNameEmpty": MessageLookupByLibrary.simpleMessage(
+            "Le prénom ne peut pas être vide"),
         "errorGeneral": m0,
         "errorGeneric": m1,
+        "errorLastNameEmpty": MessageLookupByLibrary.simpleMessage(
+            "Le nom de famille ne peut pas être vide"),
         "errorPasswordEmpty": MessageLookupByLibrary.simpleMessage(
             "Veuillez remplir le champ Mot de passe"),
         "errorPasswordsDontMatch": MessageLookupByLibrary.simpleMessage(
@@ -54,9 +68,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Le mot de passe est incorrect."),
         "fillInfo": MessageLookupByLibrary.simpleMessage(
             "Remplissez les informations ci-dessous"),
+        "firstNameHint": MessageLookupByLibrary.simpleMessage("Prénom"),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Mot de passe oublié?"),
         "fullName": MessageLookupByLibrary.simpleMessage("Nom complet"),
+        "lastNameHint": MessageLookupByLibrary.simpleMessage("Nom"),
         "legal": MessageLookupByLibrary.simpleMessage("Mentions légales"),
         "loginButton": MessageLookupByLibrary.simpleMessage("Connexion"),
         "loginPrompt": MessageLookupByLibrary.simpleMessage(
@@ -71,6 +87,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordHint": MessageLookupByLibrary.simpleMessage("Mot de passe"),
         "passwordResetSent": MessageLookupByLibrary.simpleMessage(
             "Email de réinitialisation envoyé."),
+        "profileSubtitle": MessageLookupByLibrary.simpleMessage(
+            "Mettez à jour vos informations ci-dessous"),
+        "profileTitle": MessageLookupByLibrary.simpleMessage("Profil"),
+        "profileUpdated": MessageLookupByLibrary.simpleMessage(
+            "Profil mis à jour avec succès !"),
+        "saveChanges": MessageLookupByLibrary.simpleMessage(
+            "Sauvegarder les modifications"),
         "settings": MessageLookupByLibrary.simpleMessage("Paramètres"),
         "signUp": MessageLookupByLibrary.simpleMessage("S\'\'inscrire"),
         "welcome": MessageLookupByLibrary.simpleMessage("Bienvenue")

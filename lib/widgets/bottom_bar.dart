@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:serenmind/constants/styles.dart';
 import 'package:serenmind/generated/l10n.dart';
 
@@ -28,13 +29,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.home, color: currentIndex == 0 ? AppColors.primaryColor : AppColors.textColor.withOpacity(0.6)),
+                Icon(Icons.home,
+                    color: currentIndex == 0
+                        ? AppColors.primaryColor
+                        : AppColors.textColor.withOpacity(0.6)),
                 const SizedBox(height: 4),
                 Text(
                   S.of(context).nav_home,
                   style: currentIndex == 0
-                      ? AppTextStyles.bodyText1.copyWith(color: AppColors.primaryColor)
-                      : AppTextStyles.bodyText1.copyWith(color: AppColors.textColor.withOpacity(0.6)),
+                      ? AppTextStyles.bodyText1
+                          .copyWith(color: AppColors.primaryColor)
+                      : AppTextStyles.bodyText1.copyWith(
+                          color: AppColors.textColor.withOpacity(0.6)),
                   overflow: TextOverflow.visible,
                   softWrap: false,
                   textAlign: TextAlign.center,
@@ -50,13 +56,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.fitness_center, color: currentIndex == 1 ? AppColors.primaryColor : AppColors.textColor.withOpacity(0.6)),
+                Icon(Icons.fitness_center,
+                    color: currentIndex == 1
+                        ? AppColors.primaryColor
+                        : AppColors.textColor.withOpacity(0.6)),
                 const SizedBox(height: 4),
                 Text(
                   S.of(context).nav_activity,
                   style: currentIndex == 1
-                      ? AppTextStyles.bodyText1.copyWith(color: AppColors.primaryColor)
-                      : AppTextStyles.bodyText1.copyWith(color: AppColors.textColor.withOpacity(0.6)),
+                      ? AppTextStyles.bodyText1
+                          .copyWith(color: AppColors.primaryColor)
+                      : AppTextStyles.bodyText1.copyWith(
+                          color: AppColors.textColor.withOpacity(0.6)),
                   overflow: TextOverflow.visible,
                   softWrap: false,
                   textAlign: TextAlign.center,
@@ -72,13 +83,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.music_note, color: currentIndex == 2 ? AppColors.primaryColor : AppColors.textColor.withOpacity(0.6)),
+                Icon(Icons.music_note,
+                    color: currentIndex == 2
+                        ? AppColors.primaryColor
+                        : AppColors.textColor.withOpacity(0.6)),
                 const SizedBox(height: 4),
                 Text(
                   S.of(context).nav_music,
                   style: currentIndex == 2
-                      ? AppTextStyles.bodyText1.copyWith(color: AppColors.primaryColor)
-                      : AppTextStyles.bodyText1.copyWith(color: AppColors.textColor.withOpacity(0.6)),
+                      ? AppTextStyles.bodyText1
+                          .copyWith(color: AppColors.primaryColor)
+                      : AppTextStyles.bodyText1.copyWith(
+                          color: AppColors.textColor.withOpacity(0.6)),
                   overflow: TextOverflow.visible,
                   softWrap: false,
                   textAlign: TextAlign.center,
@@ -94,13 +110,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.menu, color: currentIndex == 3 ? AppColors.primaryColor : AppColors.textColor.withOpacity(0.6)),
+                Icon(Icons.menu,
+                    color: currentIndex == 3
+                        ? AppColors.primaryColor
+                        : AppColors.textColor.withOpacity(0.6)),
                 const SizedBox(height: 4),
                 Text(
                   S.of(context).nav_menu,
                   style: currentIndex == 3
-                      ? AppTextStyles.bodyText1.copyWith(color: AppColors.primaryColor)
-                      : AppTextStyles.bodyText1.copyWith(color: AppColors.textColor.withOpacity(0.6)),
+                      ? AppTextStyles.bodyText1
+                          .copyWith(color: AppColors.primaryColor)
+                      : AppTextStyles.bodyText1.copyWith(
+                          color: AppColors.textColor.withOpacity(0.6)),
                   overflow: TextOverflow.visible,
                   softWrap: false,
                   textAlign: TextAlign.center,

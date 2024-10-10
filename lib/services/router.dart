@@ -11,7 +11,8 @@ import 'package:serenmind/screens/activity/activity_list_view.dart';
 import 'package:serenmind/screens/music/music_list_view.dart';
 import 'package:serenmind/screens/tips/tipsView.dart';
 import 'package:serenmind/screens/profil/profilView.dart';
-
+import 'package:serenmind/screens/mention/mentionView.dart';
+import 'package:serenmind/widgets/menu_list.dart';
 
 class AppRouter {
   final GoRouter router;
@@ -27,18 +28,23 @@ class AppRouter {
             ),
             GoRoute(
               path: '/activityList',
-              name: 'activity',
+              name: 'activityList',
               builder: (context, state) => MainLayout(pageIndex: 1),
             ),
             GoRoute(
               path: '/musicList',
-              name: 'music',
+              name: 'musicList',
               builder: (context, state) => MainLayout(pageIndex: 2),
+            ),
+            GoRoute(
+              path: '/recipeList',
+              name: 'recipeList',
+              builder: (context, state) => MainLayout(pageIndex: 3),
             ),
             GoRoute(
               path: '/menuList',
               name: 'menuList',
-              builder: (context, state) => MainLayout(pageIndex: 3),
+              builder: (context, state) => MainLayout(pageIndex: 4),
             ),
             GoRoute(
               path: '/tips',
@@ -66,6 +72,11 @@ class AppRouter {
               builder: (context, state) => RegisterView(),
             ),
             GoRoute(
+              path: '/mention',
+              name: 'mention',
+              builder: (context, state) => LegalMentionsView(),
+            ),
+            GoRoute(
               path: '/recipe/:recipeName',
               builder: (context, state) {
                 final recipeName = state.pathParameters['recipeName']!;
@@ -73,21 +84,6 @@ class AppRouter {
               },
             ),
             GoRoute(
-              path: '/activityList',
-              name: 'activityList',
-              builder: (context, state) => ActivityListView(),
-            ),
-            GoRoute(
-              path: '/recipeList',
-              name: 'recipeList',
-              builder: (context, state) => RecipeListView(),
-            ),
-            GoRoute(
-              path: '/musicList',
-              name: 'musicList',
-              builder: (context, state) => MusicListView(),
-            ),
-             GoRoute(
               path: '/profil',
               name: 'profil',
               builder: (context, state) => ProfilView(),

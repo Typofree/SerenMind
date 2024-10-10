@@ -1,18 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:serenmind/generated/l10n.dart';
 
 class RegisterController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   String? validateFields({
     required String email,
     required String password,
     required String confirmPassword,
+    required String firstName,
+    required String lastName,
+    required String age,
     required BuildContext context,
   }) {
     if (email.isEmpty) {
       return S.of(context).errorEmailEmpty;
+    }
+    if (firstName.isEmpty) {
+      return S.of(context).errorFirstNameEmpty;
+    }
+    if (lastName.isEmpty) {
+      return S.of(context).errorLastNameEmpty;
+    }
+    if (age.isEmpty || int.tryParse(age) == null) {
+      return S.of(context).errorAgeInvalid;
     }
     if (password.isEmpty) {
       return S.of(context).errorPasswordEmpty;
@@ -29,6 +43,9 @@ class RegisterController {
   Future<String?> registerWithEmailAndPassword({
     required String email,
     required String password,
+    required String firstName,
+    required String lastName,
+    required String age,
     required BuildContext context,
   }) async {
     try {
@@ -37,7 +54,20 @@ class RegisterController {
         email: email,
         password: password,
       );
-      // Inscription réussie
+
+      User? user = userCredential.user;
+
+      // Enregistrer des informations supplémentaires dans Firestore
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).set({
+          'firstName': firstName,
+          'lastName': lastName,
+          'age': age,
+          'email': email,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+      }
+
       return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

@@ -35,26 +35,24 @@ class _SplashScreenState extends State<SplashScreen>
     });
   }
 
-Future<void> _checkMoodAndNavigate() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  Future<void> _checkMoodAndNavigate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  String? moodDataString = prefs.getString('moodData');
+    String? moodDataString = prefs.getString('moodData');
 
-  if (moodDataString != null) {
-    Map<String, dynamic> moodData = jsonDecode(moodDataString);
-    String moodDate = moodData['date'];
-    String moodKey = moodData['mood'];
+    if (moodDataString != null) {
+      Map<String, dynamic> moodData = jsonDecode(moodDataString);
+      String moodDate = moodData['date'];
+      String moodKey = moodData['mood'];
 
-    if (moodDate == today && moodKey != null) {
-      context.go('/');
-      return;
+      if (moodDate == today && moodKey != null) {
+        context.go('/');
+        return;
+      }
     }
+    context.go('/mood');
   }
-  context.go('/mood');
-}
-
-
 
   @override
   void dispose() {
