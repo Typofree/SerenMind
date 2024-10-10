@@ -3,30 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:serenmind/constants/styles.dart';
 
 class RecipeDetailView extends StatelessWidget {
+  final String mood; // Ajouter l'humeur pour rechercher la bonne recette
+  final String day;  // Ajouter le jour de la semaine
   final String recipeName;
 
-  RecipeDetailView({required this.recipeName});
+  RecipeDetailView({required this.mood, required this.day, required this.recipeName});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(recipeName, style: AppTextStyles.headline2),
+        title: Text(recipeName, style: AppTextStyles.headline2white),
         backgroundColor: AppColors.primaryColor,
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance
+            .collection('moods')
+            .doc(mood)
+            .collection('days')
+            .doc(day)
             .collection('recipes')
-            .where('name',
-                isEqualTo:
-                    recipeName)
+            .where('name', isEqualTo: recipeName)
             .limit(1)
             .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-                child:
-                    CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -39,16 +41,13 @@ class RecipeDetailView extends StatelessWidget {
 
           var data = snapshot.data!.docs.first.data() as Map<String, dynamic>;
           String imageUrl = data['imageUrl'];
-          List<String> ingredients =
-              List<String>.from(data['ingredients']);
-          List<String> steps =
-              List<String>.from(data['steps']);
+          List<String> ingredients = List<String>.from(data['ingredients']);
+          List<String> steps = List<String>.from(data['steps']);
 
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-
                 Image.network(
                   imageUrl,
                   fit: BoxFit.cover,
@@ -60,8 +59,7 @@ class RecipeDetailView extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'Ingrédients',
-                    style: AppTextStyles.headline2
-                        .copyWith(color: AppColors.textColor),
+                    style: AppTextStyles.headline2.copyWith(color: AppColors.textColor),
                   ),
                 ),
                 Padding(
@@ -85,8 +83,7 @@ class RecipeDetailView extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'Étapes de la recette',
-                    style: AppTextStyles.headline2
-                        .copyWith(color: AppColors.textColor),
+                    style: AppTextStyles.headline2.copyWith(color: AppColors.textColor),
                   ),
                 ),
                 Padding(

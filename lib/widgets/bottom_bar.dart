@@ -20,8 +20,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColors.primaryColor,
       unselectedItemColor: AppColors.textColor.withOpacity(0.6),
-      showSelectedLabels: true,
-      showUnselectedLabels: true,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
       items: [
         BottomNavigationBarItem(
           icon: Padding(
@@ -110,7 +110,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.menu,
+                Icon(Icons.restaurant,
                     color: currentIndex == 3
                         ? AppColors.primaryColor
                         : AppColors.textColor.withOpacity(0.6)),

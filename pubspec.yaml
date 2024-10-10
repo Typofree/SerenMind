@@ -49,6 +49,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/logo/
+    - assets/images/music/
     - assets/images/menu/
     - assets/images/mood/
     - assets/images/splash/

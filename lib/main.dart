@@ -67,7 +67,6 @@ class _SerenMindAppState extends State<SerenMindApp> {
       logger.i(
           'Un message a ouvert l\'application : ${message.notification?.title}');
     });
-
     Permission.notification.request();
     notification.initState(context);
   }

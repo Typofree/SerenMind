@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:serenmind/constants/styles.dart';
-import 'package:serenmind/screens/activity/activityView.dart';
+import 'package:serenmind/screens/activity/activity_list_view.dart';
 import 'package:serenmind/screens/home/homeView.dart';
 import 'package:serenmind/screens/music/music_list_view.dart';
-import 'package:serenmind/screens/recipe/recipe_list_view.dart';
+import 'package:serenmind/screens/recipe/recipeListView.dart';
 import 'package:serenmind/widgets/menu_list.dart';
 import 'package:serenmind/widgets/bottom_bar.dart';
 import 'package:serenmind/widgets/app_bar.dart';
@@ -38,7 +38,7 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     final pages = [
       HomeView(),
-      ActivityView(),
+      ActivityListView(),
       MusicListView(),
       RecipeListView(),
     ];

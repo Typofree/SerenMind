@@ -42,22 +42,17 @@ class MoodController extends ChangeNotifier {
   bool get isLoading => _isLoading;
   List<Map<String, dynamic>> get moods => _moods;
 
+  // Set the current mood ONLY when the user selects it
   void setCurrentMood(String? mood) {
     _currentMood = mood;
     notifyListeners();
   }
 
+  // Change the current index when the slide changes, but DO NOT save the mood
   void setCurrentIndex(int index) {
     _currentIndex = index;
     _backgroundColor = _moods[index]['color'];
-
-    // Sauvegarder l'humeur avec la clé associée
-    saveMood(index);
-    notifyListeners();
-  }
-
-  void changeBackgroundColor(Color color) {
-    _backgroundColor = color;
+    _currentMood = null; // Clear the mood when changing the slide
     notifyListeners();
   }
 
@@ -75,7 +70,7 @@ class MoodController extends ChangeNotifier {
 
       await prefs.setString('moodData', jsonEncode(moodData));
 
-      _currentMood = moodKey;
+      _currentMood = moodKey; // Save the mood after pressing the button
       notifyListeners();
     } catch (e) {
       print("Erreur lors de la sauvegarde de l'humeur : $e");
@@ -99,7 +94,7 @@ class MoodController extends ChangeNotifier {
         String lastSavedDate = moodData['date'];
 
         if (lastSavedDate == currentDate) {
-          // Chercher l'index de l'humeur avec la clé
+          // Find the index of the mood with the saved key
           _currentIndex =
               _moods.indexWhere((m) => m['key'] == lastSavedMoodKey);
 

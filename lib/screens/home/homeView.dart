@@ -5,6 +5,7 @@ import 'package:serenmind/constants/styles.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
 import 'package:serenmind/screens/mood/moodController.dart';
+import 'package:serenmind/services/firebase.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeController _controller = HomeController();
+  final FirebaseControler _firebaseController = FirebaseControler();
   final AudioPlayer _audioPlayer = AudioPlayer();
   bool _isPlaying = false;
   late Future<Map<String, dynamic>?> _recipeFuture;
@@ -22,16 +24,20 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    _recipeFuture = _controller.getRecipeByName('Poulet Rôti');
-    _currentMood =
-        Provider.of<MoodController>(context, listen: false).currentMood;
+    _currentMood = Provider.of<MoodController>(context, listen: false).currentMood;
+    _recipeFuture = _controller.getRecipeOfTheDay(_currentMood ?? 'happy');
     _musicFuture = _controller.getMusicOfTheDay(_currentMood ?? 'happy');
   }
+
 
   @override
   void dispose() {
     _audioPlayer.dispose();
     super.dispose();
+  }
+
+String getDayOfWeek() {
+    return _firebaseController.getDayOfWeek();
   }
 
   void _togglePlayPause(String musicUrl) async {
@@ -54,32 +60,34 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                'Mes conseils',
+             Text(
+                'Mes conseils détentes',
                 style: AppTextStyles.headline2.copyWith(
                   color: AppColors.textColor,
                 ),
               ),
-            ),
             Divider(
               color: AppColors.textColor.withOpacity(0.3),
               thickness: 1.0,
             ),
             InkWell(
-              onTap: () {
-                context.push('/tips');
-              },
+              onTap: () {},
               child: Container(
-                height: 120,
+                width: double.infinity, // Takes full width of parent
+                height: 140,            // Defined height
+                margin: EdgeInsets.zero, // Remove any margin
+                padding: EdgeInsets.zero, // Remove any padding
                 decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.thirdColor,  // Background color
+                  borderRadius: BorderRadius.circular(16),  // Keep if you want rounded corners
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/menu/detente_home.png'),
+                    fit: BoxFit.cover,  // Ensure image covers the entire container
+                  ),
                 ),
                 child: Center(
                   child: Text(
-                    'Mes Conseils',
+                    'Détentes',
                     style: AppTextStyles.headline1.copyWith(
                       color: AppColors.whiteColor,
                     ),
@@ -87,6 +95,8 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
+
+
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -124,10 +134,14 @@ class _HomeViewState extends State<HomeView> {
                   height: 140,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    image: const DecorationImage(
+                    image: DecorationImage(
                       image: AssetImage(
                           'assets/images/music_player_background.png'),
                       fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.4),
+                        BlendMode.darken,
+                      ),
                     ),
                   ),
                   child: Column(
@@ -157,6 +171,7 @@ class _HomeViewState extends State<HomeView> {
                             : "Appuyer pour jouer",
                         style: AppTextStyles.bodyText1.copyWith(
                           color: AppColors.whiteColor,
+                          fontWeight: FontWeight.bold
                         ),
                       ),
                     ],
@@ -179,54 +194,54 @@ class _HomeViewState extends State<HomeView> {
               thickness: 1.0,
             ),
             FutureBuilder<Map<String, dynamic>?>(
-              future: _recipeFuture,
-              builder: (BuildContext context,
-                  AsyncSnapshot<Map<String, dynamic>?> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasError) {
-                  return Center(child: Text("Erreur : ${snapshot.error}"));
-                }
+            future: _recipeFuture,
+            builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text("Erreur : ${snapshot.error}"));
+              }
 
-                if (!snapshot.hasData || snapshot.data == null) {
-                  return Center(child: Text("Recette non trouvée."));
-                }
+              if (!snapshot.hasData || snapshot.data == null) {
+                return Center(child: Text("Recette non trouvée."));
+              }
 
-                var data = snapshot.data!;
-                String recipeName = data['name'];
-                String imageUrl = data['imageUrl'];
+              var data = snapshot.data!;
+              String recipeName = data['name'];
+              String imageUrl = data['imageUrl'];
 
-                return InkWell(
-                  onTap: () {
-                    context.push('/recipe/$recipeName');
-                  },
-                  child: Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                      color: AppColors.thirdColor,
-                      borderRadius: BorderRadius.circular(16),
-                      image: DecorationImage(
-                        image: NetworkImage(imageUrl),
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                          Colors.black.withOpacity(0.2),
-                          BlendMode.darken,
-                        ),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        recipeName,
-                        style: AppTextStyles.headline1.copyWith(
-                          color: AppColors.whiteColor,
-                        ),
+              return InkWell(
+                onTap: () {
+                  // Passer 'mood', 'day', et 'recipeName' dans la navigation
+                  context.push('/recipe/${_currentMood ?? 'happy'}/${getDayOfWeek()}/$recipeName');
+                },
+                child: Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: AppColors.thirdColor,
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                      image: NetworkImage(imageUrl),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.2),
+                        BlendMode.darken,
                       ),
                     ),
                   ),
-                );
-              },
-            ),
+                  child: Center(
+                    child: Text(
+                      recipeName,
+                      style: AppTextStyles.headline1.copyWith(
+                        color: AppColors.whiteColor,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
           ],
         ),
       ),

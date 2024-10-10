@@ -1,18 +1,13 @@
 import 'package:go_router/go_router.dart';
 import 'package:serenmind/mainlayout.dart';
-import 'package:serenmind/screens/activity/activity_list_view.dart';
 import 'package:serenmind/screens/login/loginView.dart';
 import 'package:serenmind/screens/splash/splashView.dart';
 import 'package:serenmind/screens/register/registerView.dart';
 import 'package:serenmind/screens/recipe/recipeView.dart';
-import 'package:serenmind/screens/recipe/recipe_list_view.dart';
 import 'package:serenmind/screens/mood/moodView.dart';
-import 'package:serenmind/screens/activity/activity_list_view.dart';
-import 'package:serenmind/screens/music/music_list_view.dart';
 import 'package:serenmind/screens/tips/tipsView.dart';
 import 'package:serenmind/screens/profil/profilView.dart';
 import 'package:serenmind/screens/mention/mentionView.dart';
-import 'package:serenmind/widgets/menu_list.dart';
 
 class AppRouter {
   final GoRouter router;
@@ -77,10 +72,18 @@ class AppRouter {
               builder: (context, state) => LegalMentionsView(),
             ),
             GoRoute(
-              path: '/recipe/:recipeName',
+              path: '/recipe/:mood/:day/:recipeName',
               builder: (context, state) {
+                // Récupérer les paramètres mood, day, et recipeName depuis l'URL
+                final mood = state.pathParameters['mood']!;
+                final day = state.pathParameters['day']!;
                 final recipeName = state.pathParameters['recipeName']!;
-                return RecipeDetailView(recipeName: recipeName);
+
+                return RecipeDetailView(
+                  mood: mood,
+                  day: day,
+                  recipeName: recipeName,
+                );
               },
             ),
             GoRoute(
