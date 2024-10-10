@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:serenmind/services/firebase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilController extends ChangeNotifier {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseControler _firebaseController = FirebaseControler();
 
   User? _user;
   Map<String, dynamic>? _userData;
@@ -13,32 +12,33 @@ class ProfilController extends ChangeNotifier {
   Map<String, dynamic>? get userData => _userData;
 
   ProfilController() {
-    _user = _auth.currentUser;
+    _user = _firebaseController.currentUser;
     if (_user != null) {
-      _loadUserProfile();
+      loadUserProfile();
     }
   }
 
-  Future<void> _loadUserProfile() async {
+  /// Chargement du profil utilisateur
+  Future<void> loadUserProfile() async {
     if (_user != null) {
-      DocumentSnapshot snapshot =
-          await _firestore.collection('users').doc(_user!.uid).get();
-      _userData = snapshot.data() as Map<String, dynamic>?;
+      _userData = await _firebaseController.loadUserProfile(_user!.uid);
       notifyListeners();
     }
   }
 
+  /// Mise à jour du profil utilisateur
   Future<void> updateUserProfile({
     required String firstName,
     required String lastName,
     required String age,
   }) async {
     if (_user != null) {
-      await _firestore.collection('users').doc(_user!.uid).update({
-        'firstName': firstName,
-        'lastName': lastName,
-        'age': age,
-      });
+      await _firebaseController.updateUserProfile(
+        userId: _user!.uid,
+        firstName: firstName,
+        lastName: lastName,
+        age: age,
+      );
       _userData = {
         'firstName': firstName,
         'lastName': lastName,
@@ -49,25 +49,20 @@ class ProfilController extends ChangeNotifier {
     }
   }
 
-  Future<void> loadUserProfile() async {
+  /// Suppression du compte utilisateur
+  Future<void> deleteUserAccount(BuildContext context) async {
     if (_user != null) {
-      DocumentSnapshot snapshot =
-          await _firestore.collection('users').doc(_user!.uid).get();
-      _userData = snapshot.data() as Map<String, dynamic>?;
+      await _firebaseController.deleteUserAccount();
+      await _firebaseController.signOut();
+      Navigator.of(context).pushReplacementNamed('/');
       notifyListeners();
     }
   }
 
-  Future<void> deleteUserAccount(context) async {
-    if (_user != null) {
-      // Supprimer les données dans Firestore
-      await _firestore.collection('users').doc(_user!.uid).delete();
-      // Supprimer l'utilisateur de Firebase Auth
-      await _user!.delete();
-      await _auth.signOut();
-      await FirebaseAuth.instance.signOut();
-      context.go('/');
-      notifyListeners();
-    }
+  /// Déconnexion
+  Future<void> signOut(BuildContext context) async {
+    await _firebaseController.signOut();
+    Navigator.of(context).pushReplacementNamed('/');
+    notifyListeners();
   }
 }

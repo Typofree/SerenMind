@@ -11,7 +11,8 @@ class MoodView extends StatefulWidget {
 }
 
 class _MoodViewState extends State<MoodView> {
-  CarouselSliderController buttonCarouselController = CarouselSliderController();
+  CarouselSliderController buttonCarouselController =
+      CarouselSliderController();
 
   @override
   void initState() {
@@ -43,9 +44,8 @@ class _MoodViewState extends State<MoodView> {
                         enlargeCenterPage: false,
                         autoPlay: false,
                         onPageChanged: (index, reason) {
-                          // Met à jour l'index et réinitialise l'humeur si la slide change
                           controller.setCurrentIndex(index);
-                          controller.setCurrentMood(null); // Réinitialise l'humeur actuelle
+                          controller.setCurrentMood(null);
                         },
                       ),
                       items: controller.moods.map((mood) {
@@ -74,8 +74,8 @@ class _MoodViewState extends State<MoodView> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              // Utiliser la clé d'humeur (key) pour définir l'humeur actuelle
-                              controller.setCurrentMood(controller.moods[controller.currentIndex]['key']);
+                              controller.setCurrentMood(controller
+                                  .moods[controller.currentIndex]['key']);
                             },
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
@@ -84,7 +84,8 @@ class _MoodViewState extends State<MoodView> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               backgroundColor: controller.currentMood ==
-                                      controller.moods[controller.currentIndex]['key']
+                                      controller.moods[controller.currentIndex]
+                                          ['key']
                                   ? Colors.green
                                   : Colors.transparent,
                               foregroundColor: AppColors.whiteColor,
@@ -99,10 +100,10 @@ class _MoodViewState extends State<MoodView> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          // Indicateurs de "dots"
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: controller.moods.asMap().entries.map((entry) {
+                            children:
+                                controller.moods.asMap().entries.map((entry) {
                               return GestureDetector(
                                 onTap: () => buttonCarouselController
                                     .animateToPage(entry.key),
