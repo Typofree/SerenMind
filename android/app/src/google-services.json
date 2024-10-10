@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "12490320141",
+    "project_id": "serenmind-8d180",
+    "storage_bucket": "serenmind-8d180.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12490320141:android:b7f4e222c67a2fcf142844",
+        "android_client_info": {
+          "package_name": "com.workshop.serenmind"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJUeAplGy1x5rze_d2lyvI8WwVo71q0KQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
