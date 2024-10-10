@@ -65,64 +65,81 @@ class _RecipeListViewState extends State<RecipeListView> {
             return Center(child: Text("Aucune recette disponible pour l'humeur sélectionnée."));
           }
 
-          return ListView(
-            children: filteredRecipes.entries.map((dayEntry) {
-              String day = dayEntry.key;
-              List<Map<String, dynamic>> recipes = dayEntry.value;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Affichage du titre avec l'humeur sélectionnée
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  "Des recettes ${translateMoodToFrench(_currentMood!)}",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  children: filteredRecipes.entries.map((dayEntry) {
+                    String day = dayEntry.key;
+                    List<Map<String, dynamic>> recipes = dayEntry.value;
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  Column(
-                    children: recipes.map((recipe) {
-                      return InkWell(
-                        onTap: () {
-                          context.push('/recipe/$_currentMood/$day/${recipe['name']}');
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          height: 200,
-                          decoration: BoxDecoration(
-                            color: getColorForMood(_currentMood!),
-                            borderRadius: BorderRadius.circular(16),
-                            image: recipe['imageUrl'] != null
-                                ? DecorationImage(
-                              image: NetworkImage(recipe['imageUrl']),
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                Colors.black.withOpacity(0.4),
-                                BlendMode.darken,
-                              ),
-                            )
-                                : null,
-                          ),
-                          child: Stack(
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Text(
-                                    recipe['name'] ?? 'Recette',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          children: recipes.map((recipe) {
+                            return InkWell(
+                              onTap: () {
+                                context.push('/recipe/$_currentMood/$day/${recipe['name']}');
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  color: getColorForMood(_currentMood!),
+                                  borderRadius: BorderRadius.circular(16),
+                                  image: recipe['imageUrl'] != null
+                                      ? DecorationImage(
+                                    image: NetworkImage(recipe['imageUrl']),
+                                    fit: BoxFit.cover,
+                                    colorFilter: ColorFilter.mode(
+                                      Colors.black.withOpacity(0.4),
+                                      BlendMode.darken,
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                  )
+                                      : null,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Text(
+                                          recipe['name'] ?? 'Recette',
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
+                            );
+                          }).toList(),
                         ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              );
-            }).toList(),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
           );
         },
       ),

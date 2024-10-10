@@ -20,9 +20,11 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'fr';
 
-  static String m0(error) => "Erreur lors de la connexion : ${error}";
+  static String m0(error) => "Erreur : ${error}";
 
-  static String m1(error) => "Une erreur est survenue : ${error}";
+  static String m1(error) => "Erreur lors de la connexion : ${error}";
+
+  static String m2(error) => "Une erreur est survenue : ${error}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -42,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteAccountWarning": MessageLookupByLibrary.simpleMessage(
             "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."),
         "emailHint": MessageLookupByLibrary.simpleMessage("E-mail"),
+        "error": m0,
         "errorAgeInvalid": MessageLookupByLibrary.simpleMessage(
             "Veuillez entrer un âge valide"),
         "errorConfirmPasswordEmpty": MessageLookupByLibrary.simpleMessage(
@@ -52,8 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Veuillez remplir le champ Adresse e-mail"),
         "errorFirstNameEmpty": MessageLookupByLibrary.simpleMessage(
             "Le prénom ne peut pas être vide"),
-        "errorGeneral": m0,
-        "errorGeneric": m1,
+        "errorGeneral": m1,
+        "errorGeneric": m2,
         "errorLastNameEmpty": MessageLookupByLibrary.simpleMessage(
             "Le nom de famille ne peut pas être vide"),
         "errorPasswordEmpty": MessageLookupByLibrary.simpleMessage(
@@ -77,13 +80,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginButton": MessageLookupByLibrary.simpleMessage("Connexion"),
         "loginPrompt": MessageLookupByLibrary.simpleMessage(
             "Connectez-vous pour continuer"),
+        "logout": MessageLookupByLibrary.simpleMessage("Déconnexion"),
         "mood": MessageLookupByLibrary.simpleMessage("Changer l\'\'humeur"),
+        "music_not_found":
+            MessageLookupByLibrary.simpleMessage("Musique non trouvée."),
+        "music_of_the_day":
+            MessageLookupByLibrary.simpleMessage("Musique du Jour"),
+        "my_relaxation_tips":
+            MessageLookupByLibrary.simpleMessage("Mes conseils détentes"),
         "nav_activity": MessageLookupByLibrary.simpleMessage("Activité"),
         "nav_home": MessageLookupByLibrary.simpleMessage("Accueil"),
         "nav_menu": MessageLookupByLibrary.simpleMessage("Menu"),
         "nav_music": MessageLookupByLibrary.simpleMessage("Musique"),
         "noAccount": MessageLookupByLibrary.simpleMessage(
             "Vous n\'\'avez pas de compte?"),
+        "now_playing":
+            MessageLookupByLibrary.simpleMessage("Lecture en cours..."),
         "passwordHint": MessageLookupByLibrary.simpleMessage("Mot de passe"),
         "passwordResetSent": MessageLookupByLibrary.simpleMessage(
             "Email de réinitialisation envoyé."),
@@ -92,10 +104,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "profileTitle": MessageLookupByLibrary.simpleMessage("Profil"),
         "profileUpdated": MessageLookupByLibrary.simpleMessage(
             "Profil mis à jour avec succès !"),
+        "recipe_not_found":
+            MessageLookupByLibrary.simpleMessage("Recette non trouvée."),
+        "recipe_of_the_day":
+            MessageLookupByLibrary.simpleMessage("Recette du Jour"),
+        "relaxation": MessageLookupByLibrary.simpleMessage("Détentes"),
         "saveChanges": MessageLookupByLibrary.simpleMessage(
             "Sauvegarder les modifications"),
         "settings": MessageLookupByLibrary.simpleMessage("Paramètres"),
         "signUp": MessageLookupByLibrary.simpleMessage("S\'\'inscrire"),
+        "tap_to_play":
+            MessageLookupByLibrary.simpleMessage("Appuyer pour jouer"),
         "welcome": MessageLookupByLibrary.simpleMessage("Bienvenue")
       };
 }

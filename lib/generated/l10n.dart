@@ -260,106 +260,6 @@ class S {
     );
   }
 
-  /// `Please fill in the Email field`
-  String get errorEmailEmpty {
-    return Intl.message(
-      'Please fill in the Email field',
-      name: 'errorEmailEmpty',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please fill in the Password field`
-  String get errorPasswordEmpty {
-    return Intl.message(
-      'Please fill in the Password field',
-      name: 'errorPasswordEmpty',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No user found with this email.`
-  String get errorUserNotFound {
-    return Intl.message(
-      'No user found with this email.',
-      name: 'errorUserNotFound',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The password is incorrect.`
-  String get errorWrongPassword {
-    return Intl.message(
-      'The password is incorrect.',
-      name: 'errorWrongPassword',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please fill in the Confirm Password field`
-  String get errorConfirmPasswordEmpty {
-    return Intl.message(
-      'Please fill in the Confirm Password field',
-      name: 'errorConfirmPasswordEmpty',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Passwords do not match`
-  String get errorPasswordsDontMatch {
-    return Intl.message(
-      'Passwords do not match',
-      name: 'errorPasswordsDontMatch',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The password is too weak.`
-  String get errorWeakPassword {
-    return Intl.message(
-      'The password is too weak.',
-      name: 'errorWeakPassword',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `This email is already in use.`
-  String get errorEmailAlreadyInUse {
-    return Intl.message(
-      'This email is already in use.',
-      name: 'errorEmailAlreadyInUse',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Error during login: {error}`
-  String errorGeneral(Object error) {
-    return Intl.message(
-      'Error during login: $error',
-      name: 'errorGeneral',
-      desc: '',
-      args: [error],
-    );
-  }
-
-  /// `An error occurred: {error}`
-  String errorGeneric(Object error) {
-    return Intl.message(
-      'An error occurred: $error',
-      name: 'errorGeneric',
-      desc: '',
-      args: [error],
-    );
-  }
-
   /// `Sent password reset email`
   String get passwordResetSent {
     return Intl.message(
@@ -460,6 +360,66 @@ class S {
     );
   }
 
+  /// `My Relaxation Tips`
+  String get my_relaxation_tips {
+    return Intl.message(
+      'My Relaxation Tips',
+      name: 'my_relaxation_tips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Relaxation`
+  String get relaxation {
+    return Intl.message(
+      'Relaxation',
+      name: 'relaxation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Music of the Day`
+  String get music_of_the_day {
+    return Intl.message(
+      'Music of the Day',
+      name: 'music_of_the_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Now Playing...`
+  String get now_playing {
+    return Intl.message(
+      'Now Playing...',
+      name: 'now_playing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap to Play`
+  String get tap_to_play {
+    return Intl.message(
+      'Tap to Play',
+      name: 'tap_to_play',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recipe of the Day`
+  String get recipe_of_the_day {
+    return Intl.message(
+      'Recipe of the Day',
+      name: 'recipe_of_the_day',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `First Name`
   String get firstNameHint {
     return Intl.message(
@@ -487,6 +447,136 @@ class S {
       name: 'ageHint',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Please fill in the Email field`
+  String get errorEmailEmpty {
+    return Intl.message(
+      'Please fill in the Email field',
+      name: 'errorEmailEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill in the Password field`
+  String get errorPasswordEmpty {
+    return Intl.message(
+      'Please fill in the Password field',
+      name: 'errorPasswordEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No user found with this email.`
+  String get errorUserNotFound {
+    return Intl.message(
+      'No user found with this email.',
+      name: 'errorUserNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The password is incorrect.`
+  String get errorWrongPassword {
+    return Intl.message(
+      'The password is incorrect.',
+      name: 'errorWrongPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill in the Confirm Password field`
+  String get errorConfirmPasswordEmpty {
+    return Intl.message(
+      'Please fill in the Confirm Password field',
+      name: 'errorConfirmPasswordEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passwords do not match`
+  String get errorPasswordsDontMatch {
+    return Intl.message(
+      'Passwords do not match',
+      name: 'errorPasswordsDontMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The password is too weak.`
+  String get errorWeakPassword {
+    return Intl.message(
+      'The password is too weak.',
+      name: 'errorWeakPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This email is already in use.`
+  String get errorEmailAlreadyInUse {
+    return Intl.message(
+      'This email is already in use.',
+      name: 'errorEmailAlreadyInUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error during login: {error}`
+  String errorGeneral(Object error) {
+    return Intl.message(
+      'Error during login: $error',
+      name: 'errorGeneral',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `An error occurred: {error}`
+  String errorGeneric(Object error) {
+    return Intl.message(
+      'An error occurred: $error',
+      name: 'errorGeneric',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `Music not found.`
+  String get music_not_found {
+    return Intl.message(
+      'Music not found.',
+      name: 'music_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recipe not found.`
+  String get recipe_not_found {
+    return Intl.message(
+      'Recipe not found.',
+      name: 'recipe_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error: {error}`
+  String error(Object error) {
+    return Intl.message(
+      'Error: $error',
+      name: 'error',
+      desc: '',
+      args: [error],
     );
   }
 

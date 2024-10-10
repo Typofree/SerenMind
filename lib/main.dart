@@ -15,7 +15,7 @@ import 'services/firebase.dart';
 import 'services/notification.dart';
 import 'package:serenmind/screens/mood/moodController.dart';
 import 'package:serenmind/screens/profil/profilController.dart';
-
+import 'package:serenmind/l10n/locale_provider.dart';
 
 NotificationManager notification = NotificationManager();
 
@@ -94,29 +94,35 @@ class _SerenMindAppState extends State<SerenMindApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => MoodController()),
         ChangeNotifierProvider(create: (_) => ProfilController()),
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: _appRouter.router,
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en', ''),
-          Locale('fr', ''),
-        ],
-        localeResolutionCallback: (locale, supportedLocales) {
-          if (locale != null) {
-            for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode) {
-                return supportedLocale;
+      child: Consumer<LocaleProvider>(
+        builder: (context, localeProvider, child) {
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            routerConfig: _appRouter.router,
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en', ''),
+              Locale('fr', ''),
+            ],
+            locale: localeProvider.locale, // Utilisation de la locale du LocaleProvider
+            localeResolutionCallback: (locale, supportedLocales) {
+              if (locale != null) {
+                for (var supportedLocale in supportedLocales) {
+                  if (supportedLocale.languageCode == locale.languageCode) {
+                    return supportedLocale;
+                  }
+                }
               }
-            }
-          }
-          return const Locale('en', '');
+              return const Locale('en', '');
+            },
+          );
         },
       ),
     );

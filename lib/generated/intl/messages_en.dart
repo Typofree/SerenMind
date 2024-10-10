@@ -20,9 +20,11 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(error) => "Error during login: ${error}";
+  static String m0(error) => "Error: ${error}";
 
-  static String m1(error) => "An error occurred: ${error}";
+  static String m1(error) => "Error during login: ${error}";
+
+  static String m2(error) => "An error occurred: ${error}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -41,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteAccountWarning": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to delete your account? This action cannot be undone."),
         "emailHint": MessageLookupByLibrary.simpleMessage("Email"),
+        "error": m0,
         "errorAgeInvalid":
             MessageLookupByLibrary.simpleMessage("Please enter a valid age"),
         "errorConfirmPasswordEmpty": MessageLookupByLibrary.simpleMessage(
@@ -51,8 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please fill in the Email field"),
         "errorFirstNameEmpty":
             MessageLookupByLibrary.simpleMessage("First name cannot be empty"),
-        "errorGeneral": m0,
-        "errorGeneric": m1,
+        "errorGeneral": m1,
+        "errorGeneric": m2,
         "errorLastNameEmpty":
             MessageLookupByLibrary.simpleMessage("Last name cannot be empty"),
         "errorPasswordEmpty": MessageLookupByLibrary.simpleMessage(
@@ -78,12 +81,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Log in to continue"),
         "logout": MessageLookupByLibrary.simpleMessage("Déconnexion"),
         "mood": MessageLookupByLibrary.simpleMessage("Change Mood"),
+        "music_not_found":
+            MessageLookupByLibrary.simpleMessage("Music not found."),
+        "music_of_the_day":
+            MessageLookupByLibrary.simpleMessage("Music of the Day"),
+        "my_relaxation_tips":
+            MessageLookupByLibrary.simpleMessage("My Relaxation Tips"),
         "nav_activity": MessageLookupByLibrary.simpleMessage("Activity"),
         "nav_home": MessageLookupByLibrary.simpleMessage("Home"),
         "nav_menu": MessageLookupByLibrary.simpleMessage("Menu"),
         "nav_music": MessageLookupByLibrary.simpleMessage("Music"),
         "noAccount":
             MessageLookupByLibrary.simpleMessage("Don\'\'t have an account?"),
+        "now_playing": MessageLookupByLibrary.simpleMessage("Now Playing..."),
         "passwordHint": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordResetSent":
             MessageLookupByLibrary.simpleMessage("Sent password reset email"),
@@ -92,9 +102,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "profileTitle": MessageLookupByLibrary.simpleMessage("Profil"),
         "profileUpdated": MessageLookupByLibrary.simpleMessage(
             "Profile updated successfully!"),
+        "recipe_not_found":
+            MessageLookupByLibrary.simpleMessage("Recipe not found."),
+        "recipe_of_the_day":
+            MessageLookupByLibrary.simpleMessage("Recipe of the Day"),
+        "relaxation": MessageLookupByLibrary.simpleMessage("Relaxation"),
         "saveChanges": MessageLookupByLibrary.simpleMessage("Save Changes"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
+        "tap_to_play": MessageLookupByLibrary.simpleMessage("Tap to Play"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome")
       };
 }

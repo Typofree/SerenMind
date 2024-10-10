@@ -21,13 +21,13 @@ Color getColorForMood(String mood) {
 String translateMoodToFrench(String mood) {
   switch (mood) {
     case 'happy':
-      return 'Joyeux';
+      return 'joyeuse';
     case 'sad':
-      return 'Triste';
+      return 'triste';
     case 'angry':
-      return 'Enervé';
+      return 'énervé';
     case 'surprised':
-      return 'Surpris';
+      return 'surprenante';
     default:
       return 'Inconnu';
   }

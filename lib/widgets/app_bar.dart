@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:serenmind/constants/styles.dart';
 import 'package:serenmind/generated/l10n.dart';
+import 'package:provider/provider.dart';
+import 'package:serenmind/l10n/locale_provider.dart';
 
 class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
@@ -36,6 +38,9 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
   @override
   Widget build(BuildContext context) {
     bool isUserLoggedIn = _user != null && !_user!.isAnonymous;
+
+    // Récupérer la langue actuelle depuis le provider
+    Locale currentLocale = Provider.of<LocaleProvider>(context).locale;
 
     return AppBar(
       backgroundColor: Colors.transparent,
@@ -93,6 +98,20 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
       ),
       centerTitle: true,
       actions: [
+        // Affichage des drapeaux selon la langue
+        IconButton(
+          icon: Image.asset(
+            currentLocale.languageCode == 'en'
+                ? 'assets/images/logo/flag_${currentLocale.languageCode}.png'
+                : 'assets/images/logo/flag_${currentLocale.languageCode}.png',
+            width: 24, // Taille du drapeau
+            height: 24,
+          ),
+          onPressed: () {
+            // Alterner entre anglais et français
+            Provider.of<LocaleProvider>(context, listen: false).toggleLocale();
+          },
+        ),
         PopupMenuButton<String>(
           onSelected: (value) {
             switch (value) {

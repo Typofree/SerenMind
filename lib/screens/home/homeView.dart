@@ -6,6 +6,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
 import 'package:serenmind/screens/mood/moodController.dart';
 import 'package:serenmind/services/firebase.dart';
+import 'package:serenmind/generated/l10n.dart';  // Import de la classe générée pour la localisation
 
 class HomeView extends StatefulWidget {
   @override
@@ -29,14 +30,13 @@ class _HomeViewState extends State<HomeView> {
     _musicFuture = _controller.getMusicOfTheDay(_currentMood ?? 'happy');
   }
 
-
   @override
   void dispose() {
     _audioPlayer.dispose();
     super.dispose();
   }
 
-String getDayOfWeek() {
+  String getDayOfWeek() {
     return _firebaseController.getDayOfWeek();
   }
 
@@ -60,12 +60,12 @@ String getDayOfWeek() {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-             Text(
-                'Mes conseils détentes',
-                style: AppTextStyles.headline2.copyWith(
-                  color: AppColors.textColor,
-                ),
+            Text(
+              S.of(context).my_relaxation_tips, // "Mes conseils détentes" / "My Relaxation Tips"
+              style: AppTextStyles.headline2.copyWith(
+                color: AppColors.textColor,
               ),
+            ),
             Divider(
               color: AppColors.textColor.withOpacity(0.3),
               thickness: 1.0,
@@ -80,14 +80,14 @@ String getDayOfWeek() {
                 decoration: BoxDecoration(
                   color: AppColors.thirdColor,  // Background color
                   borderRadius: BorderRadius.circular(16),  // Keep if you want rounded corners
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage('assets/images/menu/detente_home.png'),
                     fit: BoxFit.cover,  // Ensure image covers the entire container
                   ),
                 ),
                 child: Center(
                   child: Text(
-                    'Détentes',
+                    S.of(context).relaxation, // "Détentes" / "Relaxation"
                     style: AppTextStyles.headline1.copyWith(
                       color: AppColors.whiteColor,
                     ),
@@ -96,12 +96,11 @@ String getDayOfWeek() {
               ),
             ),
 
-
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
-                'Musique du Jour',
+                S.of(context).music_of_the_day, // "Musique du Jour" / "Music of the Day"
                 style: AppTextStyles.headline2.copyWith(
                   color: AppColors.textColor,
                 ),
@@ -116,14 +115,14 @@ String getDayOfWeek() {
               builder: (BuildContext context,
                   AsyncSnapshot<Map<String, dynamic>?> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
-                  return Center(child: Text("Erreur : ${snapshot.error}"));
+                  return Center(child: Text(S.of(context).error(snapshot.error.toString()))); // "Erreur : ${snapshot.error}" / "Error: ${snapshot.error}"
                 }
 
                 if (!snapshot.hasData || snapshot.data == null) {
-                  return Center(child: Text("Musique non trouvée."));
+                  return Center(child: Text(S.of(context).music_not_found)); // "Musique non trouvée." / "Music not found"
                 }
 
                 var musicData = snapshot.data!;
@@ -167,11 +166,11 @@ String getDayOfWeek() {
                       ),
                       Text(
                         _isPlaying
-                            ? "Lecture en cours..."
-                            : "Appuyer pour jouer",
+                            ? S.of(context).now_playing // "Lecture en cours..." / "Now Playing..."
+                            : S.of(context).tap_to_play, // "Appuyer pour jouer" / "Tap to Play"
                         style: AppTextStyles.bodyText1.copyWith(
-                          color: AppColors.whiteColor,
-                          fontWeight: FontWeight.bold
+                            color: AppColors.whiteColor,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
                     ],
@@ -183,7 +182,7 @@ String getDayOfWeek() {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
-                'Recette du Jour',
+                S.of(context).recipe_of_the_day, // "Recette du Jour" / "Recipe of the Day"
                 style: AppTextStyles.headline2.copyWith(
                   color: AppColors.textColor,
                 ),
@@ -194,54 +193,53 @@ String getDayOfWeek() {
               thickness: 1.0,
             ),
             FutureBuilder<Map<String, dynamic>?>(
-            future: _recipeFuture,
-            builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return Center(child: Text("Erreur : ${snapshot.error}"));
-              }
+              future: _recipeFuture,
+              builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text(S.of(context).error(snapshot.error.toString()))); // "Erreur : ${snapshot.error}" / "Error: ${snapshot.error}"
+                }
 
-              if (!snapshot.hasData || snapshot.data == null) {
-                return Center(child: Text("Recette non trouvée."));
-              }
+                if (!snapshot.hasData || snapshot.data == null) {
+                  return Center(child: Text(S.of(context).recipe_not_found)); // "Recette non trouvée." / "Recipe not found"
+                }
 
-              var data = snapshot.data!;
-              String recipeName = data['name'];
-              String imageUrl = data['imageUrl'];
+                var data = snapshot.data!;
+                String recipeName = data['name'];
+                String imageUrl = data['imageUrl'];
 
-              return InkWell(
-                onTap: () {
-                  // Passer 'mood', 'day', et 'recipeName' dans la navigation
-                  context.push('/recipe/${_currentMood ?? 'happy'}/${getDayOfWeek()}/$recipeName');
-                },
-                child: Container(
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: AppColors.thirdColor,
-                    borderRadius: BorderRadius.circular(16),
-                    image: DecorationImage(
-                      image: NetworkImage(imageUrl),
-                      fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                        Colors.black.withOpacity(0.2),
-                        BlendMode.darken,
+                return InkWell(
+                  onTap: () {
+                    context.push('/recipe/${_currentMood ?? 'happy'}/${getDayOfWeek()}/$recipeName');
+                  },
+                  child: Container(
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: AppColors.thirdColor,
+                      borderRadius: BorderRadius.circular(16),
+                      image: DecorationImage(
+                        image: NetworkImage(imageUrl),
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(
+                          Colors.black.withOpacity(0.2),
+                          BlendMode.darken,
+                        ),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        recipeName,
+                        style: AppTextStyles.headline1.copyWith(
+                          color: AppColors.whiteColor,
+                        ),
                       ),
                     ),
                   ),
-                  child: Center(
-                    child: Text(
-                      recipeName,
-                      style: AppTextStyles.headline1.copyWith(
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            ),
           ],
         ),
       ),
